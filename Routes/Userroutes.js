@@ -22,4 +22,52 @@ const UserRouter = express.Router();
       res.json({ Data: Data });
     })
 
+   
+   UserRouter.get("/Get/:id", async (req, res) => {
+    const userId = req.params.id;
+    const user = await Userss.findById(userId);
+    res.json({ success: true, Data: user });
+
+
+});
+
+UserRouter.delete("/Delete/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const deletedUser = await Userss.findByIdAndDelete(userId);
+
+    if (!deletedUser) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    res.json({ success: true, message: "User deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error", error });
+  }
+});
+      
+
+     UserRouter.put("/Edit/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const updatedData = req.body;
+
+    const updatedUser = await Userss.findByIdAndUpdate(userId, updatedData);
+
+    if (!updatedUser) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    res.json({
+      success: true,
+      message: "User updated successfully",
+      data: updatedUser,
+    });
+  } catch (error) {
+    console.error("Update error:", error);
+    res.status(500).json({ success: false, message: "Server error", error });
+  }
+});
+
+
     module.exports = UserRouter;
