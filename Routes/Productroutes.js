@@ -50,7 +50,7 @@ ProductRouter.post("/Post", async(req,res)=>{
     const Productname = req.params.Productname;
     const updatedProduct = req.body;
 
-    const updatedProducts = await Products.findOneAndUpdate(Productname, updatedProduct);
+    const updatedProducts = await Products.findOneAndUpdate({ ProductName: Productname }, updatedProduct);
 
     if (!updatedProducts) {
       return res.status(404).json({ success: false, message: "Products not found" });
