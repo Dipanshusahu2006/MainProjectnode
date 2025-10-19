@@ -3,8 +3,7 @@ const Cors = require("cors");
 const bodyparshar = require("body-parser");
 const UserRouter = require("./Routes/Userroutes");
 const ProductRouter = require("./Routes/Productroutes");
-
-
+const AdminRouter = require("./Routes/AdminRoutes");
 require("./Mongodp/Mongodpconnect")
 
 const server = express();
@@ -16,6 +15,7 @@ server.use(bodyparshar.json());
 
 
 server.use("/user", UserRouter);
+server.use("/admin", AdminRouter);
 server.use("/product",ProductRouter);
 
 server.get("/", (req, res) => {
