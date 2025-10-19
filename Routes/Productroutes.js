@@ -23,8 +23,8 @@ ProductRouter.post("/Post", async(req,res)=>{
     })
 
    
-    ProductRouter.get("/Get/:Productname", async (req, res) => {
-     const Productname = req.params.Productname;
+    ProductRouter.get("/Get/:ProductName", async (req, res) => {
+     const Productname = req.params.ProductName;
     const Product = await Products.findOne(Productname);
     res.json({ success: true, Data: Product });
 });
