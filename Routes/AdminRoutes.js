@@ -56,11 +56,10 @@ const AdminRouter = express.Router();
     if (!updateAdmin) {
       return res.status(404).json({ success: false, message: "Admin not found" });
     }
-
-    res.json({
+      res.json({
       success: true,
       message: "Admin updated successfully",
-      data: updatedUser,
+      data: updateAdmin,
     });
   } catch (error) {
     console.error("Update error:", error);
