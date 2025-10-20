@@ -6,6 +6,7 @@ const ProductRouter = require("./Routes/Productroutes");
 const AdminRouter = require("./Routes/AdminRoutes");
 const AdminreplyRouter = require("./Routes/AdminreplyRoutes");
 const EnquryRouter = require("./Routes/Enquriryroutes");
+const  CartRouter = require("./Routes/CartRoutes");
 require("./Mongodp/Mongodpconnect")
 
 const server = express();
@@ -21,6 +22,7 @@ server.use("/admin", AdminRouter);
 server.use("/product",ProductRouter);
 server.use("/enqury",EnquryRouter);
 server.use("/adminreply",AdminreplyRouter);
+server.use("/Cart",CartRouter);
 
 server.get("/", (req, res) => {
   res.send("🚀 Hello! Your server is working.");
