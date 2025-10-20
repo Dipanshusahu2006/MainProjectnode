@@ -4,6 +4,8 @@ const bodyparshar = require("body-parser");
 const UserRouter = require("./Routes/Userroutes");
 const ProductRouter = require("./Routes/Productroutes");
 const AdminRouter = require("./Routes/AdminRoutes");
+const AdminreplyRouter = require("./Routes/AdminreplyRoutes");
+const EnquryRouter = require("./Routes/Enquriryroutes");
 require("./Mongodp/Mongodpconnect")
 
 const server = express();
@@ -17,6 +19,8 @@ server.use(bodyparshar.json());
 server.use("/user", UserRouter);
 server.use("/admin", AdminRouter);
 server.use("/product",ProductRouter);
+server.use("/enqury",EnquryRouter);
+server.use("/adminreply",AdminreplyRouter);
 
 server.get("/", (req, res) => {
   res.send("🚀 Hello! Your server is working.");
