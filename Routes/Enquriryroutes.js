@@ -30,3 +30,5 @@ const EnquryRouter = express.Router();
 
 
 });
+
+ module.exports = EnquryRouter;

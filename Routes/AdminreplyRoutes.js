@@ -22,3 +22,4 @@ const AdminreplyRouter = express.Router();
       res.json({ Data: Data });
     })
 
+   module.exports = AdminreplyRouter;
