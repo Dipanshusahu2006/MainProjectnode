@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const ProductSchema = new mongoose.Schema({
-  id: { type: String, required: true },
   ProductName: { type: String, required: true },
   ProductPrice: { type: String, required: true },
   ProductImage: { type: String, required: true },
@@ -13,10 +12,10 @@ const ProductSchema = new mongoose.Schema({
 });
 
 const OrderSchema = new mongoose.Schema({
-  id: { type: String, required: true, unique: true }, // cart ID (like 'dd90', '35dd')
-  products: [ProductSchema], // array of product objects
+  username: { type: String, required: true }, // ✅ changed from userId to username
+  products: [ProductSchema],
+  TotalAmount: { type: Number, required: true },
 });
 
 const Order = mongoose.model("MyOrder", OrderSchema);
-
 module.exports = Order;
