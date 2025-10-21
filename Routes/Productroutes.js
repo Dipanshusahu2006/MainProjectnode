@@ -24,8 +24,8 @@ ProductRouter.post("/Post", async(req,res)=>{
 
    
     ProductRouter.get("/Get/:ProductName", async (req, res) => {
-     const Productname = req.params.ProductName;
-     const Product = await Products.findOne({ ProductName: Productname });
+      const decodedName = decodeURIComponent(req.params.ProductName);
+     const Product = await Products.findOne({ ProductName: decodedName });
     res.json({ success: true, Data: Product });
 });
 
