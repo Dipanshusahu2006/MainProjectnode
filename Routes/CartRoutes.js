@@ -21,7 +21,20 @@ CartRouter.post("/Post", async(req,res)=>{
      const ProductCart = await Cart.find();
       res.json({ Data: ProductCart });
     })
+     
 
+    CartRouter.delete("/Delete", async (req, res) => {
+  try {
+    const result = await Cart.deleteMany({});
+
+     if (!result) {
+      return res.status(404).json({ success: false, message: "Cart not deleted" });
+    }
+    res.json({ success: true, message: "Cart deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error", error });
+  }
+});
 
  CartRouter.delete("/Delete/:id", async (req, res) => {
   try {
