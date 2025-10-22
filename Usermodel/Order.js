@@ -1,7 +1,6 @@
-// models/OrderModel.js
 const mongoose = require("mongoose");
 
-// ✅ Define Product Schema
+// Product schema
 const ProductSchema = new mongoose.Schema({
   ProductName: { type: String, required: true },
   ProductPrice: { type: Number, required: true },
@@ -13,25 +12,24 @@ const ProductSchema = new mongoose.Schema({
   Status: { type: String, default: "Pending" },
 });
 
-// ✅ Define Order Schema
+// Order schema
 const OrderSchema = new mongoose.Schema(
   {
     orderId: {
       type: String,
       unique: true,
-      default: () => `ORD-${Date.now()}`, // Example: ORD-1761036701078
+      default: () => `ORD-${Date.now()}`, // auto-generated order ID
     },
     username: { type: String, required: true },
     email: { type: String, default: "" },
     address: { type: String, default: "" },
     products: { type: [ProductSchema], required: true },
     TotalAmount: { type: Number, required: true },
-    paymentStatus: { type: String, default: "Pending" }, // New: track payments
-    orderStatus: { type: String, default: "Processing" }, // New: track order flow
+    paymentStatus: { type: String, default: "Pending" },
+    orderStatus: { type: String, default: "Processing" },
   },
-  { timestamps: true } // adds createdAt and updatedAt
+  { timestamps: true }
 );
 
-// ✅ Create model
 const Order = mongoose.model("MyOrder", OrderSchema);
 module.exports = Order;
