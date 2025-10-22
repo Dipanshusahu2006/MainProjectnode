@@ -33,16 +33,39 @@ const OrderRouter = express.Router();
 
 OrderRouter.delete("/Delete/:id", async (req, res) => {
   try {
-    const OrderId = req.params.id;
-    const deletedorder = await Order.findByIdAndDelete(OrderId);
+    const { id } = req.params;
 
-    if (!deletedorder) {
-      return res.status(404).json({ success: false, message: "Order not found" });
+    // ✅ Validate MongoDB ObjectId
+    if (!id || id.length !== 24) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Order ID format",
+      });
     }
 
-    res.json({ success: true, message: "Order deleted successfully" });
+    // ✅ Attempt to delete order
+    const deletedOrder = await Order.findByIdAndDelete(id);
+
+    if (!deletedOrder) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
+    }
+
+    // ✅ Return success with order details (optional)
+    res.status(200).json({
+      success: true,
+      message: "Order deleted successfully",
+      deletedOrder, // you can remove this line if you don’t want to expose deleted data
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Server error", error });
+    console.error("Error deleting order:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error while deleting order",
+      error: error.message,
+    });
   }
 });
 
