@@ -54,24 +54,19 @@ CartRouter.post("/Post", async(req,res)=>{
 
       CartRouter.put("/Edit/:id", async (req, res) => {
   try {
-    const CarttId = req.params.id;
-    const { ProductQuantity } = req.body;
+     const CarttId = req.params.id;
+    const updatedCart = req.body;
 
-    // ✅ Ensure only quantity is updated
-    const updatedCart = await Cart.findByIdAndUpdate(
-      CarttId,
-      { $set: { ProductQuantity } },
-      { new: true } // return updated doc
-    );
+    const updatedCarts = await Cart.findByIdAndUpdate( CarttId ,updatedCart);
 
-    if (!updatedCart) {
+    if (!updatedCarts) {
       return res.status(404).json({ success: false, message: "Cart not found" });
     }
 
     res.json({
       success: true,
-      message: "Cart quantity updated successfully",
-      data: updatedCart,
+      message: "Cart updated successfully",
+      data: updatedCarts,
     });
   } catch (error) {
     console.error("Update error:", error);
