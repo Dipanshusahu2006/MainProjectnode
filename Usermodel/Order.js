@@ -10,16 +10,17 @@ const ProductSchema = new mongoose.Schema({
   ProductDescription: { type: String, default: "" },
   ProductBrand: { type: String, default: "" },
   Status: { type: String, default: "Pending" },
-});
+}, { _id: false });
+
 
 // Order schema
 const OrderSchema = new mongoose.Schema(
   {
     orderId: {
-      type: String,
-      unique: true,
-      default: () => `ORD-${Date.now()}`, // auto-generated order ID
-    },
+  type: String,
+  unique: true,
+  default: () => `ORD-${Date.now()}-${Math.floor(Math.random() * 10000)}`
+},
     username: { type: String, required: true },
     email: { type: String, default: "" },
     address: { type: String, default: "" },
