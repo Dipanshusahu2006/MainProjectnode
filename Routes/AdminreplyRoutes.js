@@ -17,7 +17,7 @@ const AdminreplyRouter = express.Router();
     }
  })
 
-  AdminreplyRouter.get("/Get",async(req,res)=>{
+  AdminreplyRouter.get("/Get/:userId",async(req,res)=>{
     try {
     const userId = req.params.userId;
      const Data = await AdminsReply.find({ userId });
