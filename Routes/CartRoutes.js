@@ -2,25 +2,32 @@ const express = require("express");
 const  Cart = require("../Usermodel/Cart");
 const CartRouter = express.Router();
 
-CartRouter.post("/Post", async(req,res)=>{
-    const MyCart = new Cart(req.body);
-      const SaveCart = await MyCart.save();
-      if (SaveCart) {
-      res.status(200).json({
-        message: "Cart post succesfully",
-        data: SaveCart
-      });
-    } else {
-      res.status(400).json({
-        message: "products not saved "
-      });
-    }
- })
+CartRouter.post("/Post", async (req, res) => {
+  try {
+    const { userId } = req.body;
+    if (!userId)
+      return res.status(400).json({ message: "Missing userId in request body" });
 
- CartRouter.get("/Get",async(req,res)=>{
-     const ProductCart = await Cart.find();
-      res.json({ Data: ProductCart });
-    })
+    const MyCart = new Cart(req.body);
+    const SaveCart = await MyCart.save();
+
+    res.status(200).json({ message: "Cart posted successfully", data: SaveCart });
+  } catch (error) {
+    res.status(500).json({ message: "Error saving cart", error });
+  }
+});
+
+
+ CartRouter.get("/Get/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const ProductCart = await Cart.find({ userId });
+    res.json({ Data: ProductCart });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching cart", error });
+  }
+});
+
      
 
     CartRouter.delete("/Delete", async (req, res) => {
