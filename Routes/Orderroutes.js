@@ -33,13 +33,17 @@ const OrderRouter = express.Router();
 });
 
    
-   OrderRouter.get("/Get/:id", async (req, res) => {
-    const OrderId = req.params.id;
-    const Orders = await Order.findById(OrderId);
-    res.json({ success: true, Data: Orders });
-
-
+   // Get a specific order by MongoDB ID
+OrderRouter.get("/GetById/:id", async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    if (!order) return res.status(404).json({ success: false, message: "Order not found" });
+    res.json({ success: true, Data: order });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error fetching order", error });
+  }
 });
+
 
 OrderRouter.delete("/Delete/:id", async (req, res) => {
   try {
