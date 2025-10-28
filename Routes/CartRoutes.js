@@ -30,14 +30,14 @@ CartRouter.post("/Post", async (req, res) => {
 
      
 
-    CartRouter.delete("/Delete", async (req, res) => {
+    CartRouter.delete("/Delete/:userId", async (req, res) => {
   try {
-    const result = await Cart.deleteMany({});
-
-     if (!result) {
-      return res.status(404).json({ success: false, message: "Cart not deleted" });
+    const userId = req.params.userId;
+    const result = await Cart.deleteMany({ userId });
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ success: false, message: "No cart found for this user" });
     }
-    res.json({ success: true, message: "Cart deleted successfully" });
+    res.json({ success: true, message: "User cart deleted successfully" });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error", error });
   }
