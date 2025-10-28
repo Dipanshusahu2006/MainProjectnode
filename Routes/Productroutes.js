@@ -2,20 +2,23 @@ const express = require("express");
 const  Products = require("../Usermodel/Product");
 const ProductRouter = express.Router();
 
-ProductRouter.post("/Post", async(req,res)=>{
-    const Myproducts = new Products(req.body);
-      const Savedata = await Myproducts.save();
-      if (Savedata) {
-      res.status(200).json({
-        message: "Product post succesfully",
-        data: Savedata
-      });
-    } else {
-      res.status(400).json({
-        message: "products not saved "
-      });
-    }
- })
+ProductRouter.post("/Post", async (req, res) => {
+  try {
+    const { ProductName } = req.body;
+    const slug = ProductName.toLowerCase().replace(/\s+/g, "-").replace(/[()]/g, "");
+
+    const Myproducts = new Products({ ...req.body, slug });
+    const Savedata = await Myproducts.save();
+
+    res.status(200).json({
+      message: "Product posted successfully",
+      data: Savedata
+    });
+  } catch (error) {
+    res.status(400).json({ message: "Product not saved", error });
+  }
+});
+
 
  ProductRouter.get("/Get",async(req,res)=>{
      const ProductData = await Products.find();
@@ -23,11 +26,20 @@ ProductRouter.post("/Post", async(req,res)=>{
     })
 
    
-    ProductRouter.get("/Get/:ProductName", async (req, res) => {
-      const ProductName = req.params.ProductName; 
-     const Product = await Products.findOne({ ProductName: ProductName });
-    res.json({ success: true, Data: Product });
+    ProductRouter.get("/slug/:slug", async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const product = await Products.findOne({ slug });
+
+    if (!product)
+      return res.status(404).json({ success: false, message: "Product not found" });
+
+    res.json({ success: true, Data: product });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error", error });
+  }
 });
+
 
  ProductRouter.delete("/Delete/:id", async (req, res) => {
   try {
