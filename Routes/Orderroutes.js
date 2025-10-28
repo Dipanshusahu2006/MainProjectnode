@@ -34,10 +34,10 @@ const OrderRouter = express.Router();
 
    
    // Get a specific order by MongoDB ID
-OrderRouter.get("/Get/:ProductName", async (req, res) => {
+OrderRouter.get("/Get/:Ordername", async (req, res) => {
   try {
-     const decodedName = decodeURIComponent(req.params.ProductName);
-    const order = await Order.findOne({ ProductName: decodedName });
+     const Ordername = req.params.Ordername; 
+    const order = await Order.findOne({ Ordername: Ordername });
     if (!order) return res.status(404).json({ success: false, message: "Order not found" });
     res.json({ success: true, Data: order });
   } catch (error) {
