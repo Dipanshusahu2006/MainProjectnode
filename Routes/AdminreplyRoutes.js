@@ -3,6 +3,10 @@ const  AdminsReply = require("../Usermodel/Adminreply");
 const AdminreplyRouter = express.Router();
 
  AdminreplyRouter.post("/Post", async(req,res)=>{
+  try {
+    const { userId } = req.body;
+    if (!userId)
+      return res.status(400).json({ message: "Missing userId in request body" });
     const MyEnqury = new AdminsReply(req.body);
       const Savedata = await MyEnqury.save();
       if (Savedata) {
@@ -15,11 +19,19 @@ const AdminreplyRouter = express.Router();
         message: "Reply not saved "
       });
     }
+    } catch (error) {
+    res.status(500).json({ message: "Error saving Enquryreply", error });
+  }
  })
 
   AdminreplyRouter.get("/Get",async(req,res)=>{
-     const Data = await AdminsReply.find();
+    try {
+    const userId = req.params.userId;
+     const Data = await AdminsReply.find({ userId });
       res.json({ Data: Data });
+      } catch (error) {
+    res.status(500).json({ message: "Error fetching Enquryreply", error });
+  }
     })
 
    module.exports = AdminreplyRouter;

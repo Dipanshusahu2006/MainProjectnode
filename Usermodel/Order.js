@@ -16,11 +16,7 @@ const ProductSchema = new mongoose.Schema({
 // Order schema
 const OrderSchema = new mongoose.Schema(
   {
-    orderId: {
-  type: String,
-  unique: true,
-  default: () => `ORD-${Date.now()}-${Math.floor(Math.random() * 10000)}`
-},
+    userId: { type: String, required: true },
     username: { type: String, required: true },
     email: { type: String, default: "" },
     address: { type: String, default: "" },

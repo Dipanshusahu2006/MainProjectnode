@@ -2,25 +2,35 @@ const express = require("express");
 const Order  = require("../Usermodel/Order");
 const OrderRouter = express.Router();
 
- OrderRouter.post("/Post", async(req,res)=>{
+ OrderRouter.post("/Post", async (req, res) => {
+  try {
+    const { userId } = req.body;
+    if (!userId)
+      return res.status(400).json({ message: "Missing userId in request body" });
+
     const MyOrder = new Order(req.body);
-      const SaveOrder = await MyOrder.save();
-      if (SaveOrder) {
-      res.status(200).json({
-        message: "Order post successfully",
-        data: SaveOrder
-      });
-    } else {
-      res.status(400).json({
-        message: "Order not saved "
-      });
-    }
- })
+    const SaveOrder = await MyOrder.save();
+    res.status(200).json({ message: "Order posted successfully", data: SaveOrder });
+  } catch (error) {
+    res.status(500).json({ message: "Error saving order", error });
+  }
+});
+
 
   OrderRouter.get("/Get",async(req,res)=>{
      const OrderData = await Order.find();
       res.json({ Data: OrderData });
     })
+    
+    OrderRouter.get("/Get/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const orders = await Order.find({ userId });
+    res.json({ Data: orders });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching orders", error });
+  }
+});
 
    
    OrderRouter.get("/Get/:id", async (req, res) => {
