@@ -5,14 +5,7 @@ const ProductRouter = express.Router();
 ProductRouter.post("/Post", async (req, res) => {
   try {
     const { ProductName } = req.body;
-
-    if (!ProductName) {
-      return res.status(400).json({ message: "ProductName is required" });
-    }
-
-    const slug = ProductName.toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[()]/g, "");
+    const slug = ProductName.toLowerCase().replace(/\s+/g, "-").replace(/[()]/g, "");
 
     const Myproducts = new Products({ ...req.body, slug });
     const Savedata = await Myproducts.save();
@@ -22,10 +15,10 @@ ProductRouter.post("/Post", async (req, res) => {
       data: Savedata
     });
   } catch (error) {
-    console.error("Error saving product:", error);
     res.status(400).json({ message: "Product not saved", error });
   }
 });
+
 
 
  ProductRouter.get("/Get",async(req,res)=>{
