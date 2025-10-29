@@ -12,7 +12,13 @@ const OrderRouter = express.Router();
     const SaveOrder = await MyOrder.save();
     res.status(200).json({ message: "Order posted successfully", data: SaveOrder });
   } catch (error) {
-    res.status(500).json({ message: "Error saving order", error });
+    console.log("🔥 Order Post Error:", error.message);
+
+    return res.status(500).json({
+      success: false,
+      message: "Error saving order",
+      error: error.message   // ✅ important
+    });
   }
 });
 
