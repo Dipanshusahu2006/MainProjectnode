@@ -10,7 +10,7 @@ const ProductSchema = new mongoose.Schema({
   ProductDescription: { type: String, default: "" },
   ProductBrand: { type: String, default: "" },
   Status: { type: String, default: "Pending" },
-}, { _id: false, timestamps: true });
+}, { _id: false });
 
 
 // Order schema
