@@ -1,6 +1,7 @@
+require("dotenv").config();
 const { Razorpayinstance } = require("../config/razorpay.config");
 const crypto = require("crypto");
-require("dotenv").config();
+
 
  const  Razorpayinstances =    Razorpayinstance();
 exports.creatOrder = async (req,res) =>{
