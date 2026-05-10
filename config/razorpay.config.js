@@ -5,7 +5,7 @@ dotenv.config();
 
     exports.Razorpayinstance = () =>{
     return new razorpay({
-        key_id : process.env.Razorpay_key_id,
-        key_secret : process.env.Razorpay_key_Secret
+        key_id : process.env.RAZORPAY_KEY_ID,
+        key_secret : process.env.RAZORPAY_KEY_SECRET
     });
 }

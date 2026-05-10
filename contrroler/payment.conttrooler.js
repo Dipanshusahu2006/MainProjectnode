@@ -37,7 +37,7 @@ exports.creatOrder = async (req,res) =>{
  exports.verifypayment = async (req,res) =>{
      const {order_id, payment_id,signature} = req.body;
 
-     const secret = process.env.Razorpay_key_Secret ;
+     const secret = process.env.RAZORPAY_KEY_SECRET ;
 
      const hmac = crypto.createHmac("Shoporder1",secret)
      
